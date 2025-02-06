@@ -19,7 +19,37 @@ class ProductViewTests(TestCase):
             'description': 'Test description',
             'image': image
         })
-        print(response.status_code)
-        print(response.content)
 
         self.assertRedirects(response, reverse('product_list'))
+        self.assertEqual(Product.objects.count(), 1)
+        product = Product.objects.first()
+        self.assertEqual(product.name, 'Test Product')
+        self.assertEqual(product.price, 1000)
+        self.assertEqual(product.description, 'Test description')
+
+    def test_add_product_invalid(self):
+        response = self.client.post(reverse('add_product'), {
+            'name': '',
+            'price': '100',
+            'description': 'Product Description'
+        }, follow=True)
+
+        self.assertEqual(response.status_code, 200)
+        form = response.context['form']
+
+        self.assertTrue(form.errors['name'])
+        self.assertIn('This field is required.', form.errors['name'])
+
+    def test_product_list(self):
+        product = Product.objects.create(
+            name='Test Product',
+            price=1000,
+            description='Test description',
+            image=None
+        )
+
+        response = self.client.get(reverse('product_list'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Test Product')
+        self.assertContains(response, 'Test description')

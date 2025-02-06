@@ -13,7 +13,11 @@
       <h2>{{ product.name }}</h2>
       <p>{{ product.description }}</p>
       <p>${{ product.price }}</p>
+      {% if product.image %}
       <img src="{{ product.image.url }}" alt="{{ product.name }}" width="200">
+      {% else %}
+      <p>No image available</p>
+      {% endif %}
     </li>
     {% endfor %}
   </ul>
