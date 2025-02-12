@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order History</title>
+</head>
+<body>
+  <h1>Order History</h1>
+  {% for order in orders %}
+  <div>
+    <h2>Order ID: {{ order.id }}</h2>
+    <p>Date: {{ order.created_at }}</p>
+    <p>Total Price: ${{ order.total_price }}</p>
+    <ul>
+      {% for item in order.items.all %}
+      <li>{{ item.product.name }} - Quantity: {{ item.quantity }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endfor %}
+</body>
+</html>
