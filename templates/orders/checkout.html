@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout</title>
+</head>
+<body>
+  <h2>Checkout</h2>
+  <p>Total: ${{ total_price }}</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Pay with Stripe</button>
+  </form>
+</body>
+</html>
