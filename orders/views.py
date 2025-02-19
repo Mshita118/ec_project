@@ -71,3 +71,9 @@ def order_list(request):
     orders = Order.objects.filter(
         user=request.user).prefetch_related('items__product')
     return render(request, 'orders/order_list.html', {'orders': orders})
+
+
+@login_required
+def order_history(request):
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'orders/order_history.html', {'orders': orders})
