@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - EC Site</title>
+</head>
+<body>
+  <h1>Welcome to Our EC Site!</h1>
+
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/cart">Cart</a></li>
+      {% if user.is_authenticated %}
+      <li><a href="/orders/history/">Order History</a></li>
+      <li>
+        <form action="{% url 'logout' %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit"">
+            Logout
+          </button>
+        </form>
+      </li>
+
+      {% else %}
+      <li><a href=" /users/login/">Login</a>
+      </li>
+      <li><a href="/users/register">Register</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <h2>Product List</h2>
+
+  {% if products %}
+  <ul>
+    {% for product in products %}
+    <li>
+      <h3>{{ product.name }}</h3>
+      <p>Price : ${{ product.price }}</p>
+      <p>{{ product.description }}</p>
+      <a href="{% url 'product_detail' product_id=product.id %}">View Details</a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No products available.</p>
+  {% endif %}
+
+</body>
+</html>
